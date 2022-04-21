@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<link rel="stylesheet" type="text/css" href="../css/ledgerPage.css">
+    <script type="module" src="../js/index.js"></script>
+	<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+	<!-- <script type="module" src="../js/index.js"></script> -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+	<div class="navSectionContainer">
+	
+		<div class="logoContainer"> 
+
+			<img src="/../img/Icon awesome-link@2x.png">
+			<span>MEDIBLOCK</span>
+
+
+		</div>
+
+		<div class="logoContainerOne">
+
+			<span>Your Profile</span> 
+			<div class="img" style="background-image: url('/../img/pexels-photo-2014773@2x.png');"></div>
+			
+
+
+		</div>
+
+	</div>
+
+	<div class="contentContainer"> 
+
+		<label class="ledgerBlockLabel">LEDGER</label>
+
+		<div class="addFunction">
+			
+			<a href="/medicines/<%=medicine._id%>/ledgerItems/new"></span><label class="ledgerBlockLabelOne" id="add">Add</label></a>
+			<a href="/medicines"><span id="all">View All</span></a>
+
+
+		</div> 
+
+
+		<div class="ledgerBlock">
+
+			<div class="hidderDiv">
+
+			<table class="mainTable">
+
+				<!-- from tr to tr used to illustrate implementation of loop -->
+				
+                    <% for(let ledgerItem of medicine.ledgerItems) { %>
+
+						<%
+						var options = { month: 'long'};
+
+						
+// 						monthNames = [
+//       “January”, “February”, “March”,
+//       “April”, “May”, “June”, “July”,
+//       “August”, “September”, “October”,
+//       “November”, “December”
+//    ];
+						 %>
+
+
+					<tr>
+						
+						<td id = "datey" class="dateInfo"> <%=ledgerItem.date.getDate()%> <%=new Intl.DateTimeFormat('en-US', options).format(ledgerItem.month)%> </td>
+						<td class="otherInfo"><%=ledgerItem.date.getFullYear()%></td>
+						<td class="otherInfo"><%=ledgerItem.units%> units</td>
+						<td class="otherInfo"><%=ledgerItem.weight%> lbs</td>
+                        <td class="otherInfo"><%=ledgerItem.description%></td>
+
+					</tr>
+
+                    <% } %>
+					
+			</table>
+
+		</div>
+
+		</div>
+
+
+		<div class="addInfoBlock">
+
+			<label id = "map" class="shipmentBlockLabel">REMINDERS</label>
+
+			<div class="shipmentBlock">
+
+				<div class="containerText"> 
+				<h2 class="dateText">04</h2>
+				<h2 class="dateText">30</h2>
+				</div>
+				<p class="shipmentBlockText">Expected Next Shipment </p>
+
+			</div>
+
+			<label class="graphBlockLabel">Track Packages</label>
+
+			<div class="graphBlock">
+				<div id="map"></div>
+			</div>
+			
+		</div>
+
+	</div>	
+
+    <!--The div element for the map -->
+
+    <!-- 
+     The `defer` attribute causes the callback to execute after the full HTML
+     document has been parsed. For non-blocking uses, avoiding race conditions,
+     and consistent behavior across browsers, consider loading using Promises
+     with https://www.npmjs.com/package/@googlemaps/js-api-loader.
+    -->
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key={YOURKEY}&callback=initMap&v=weekly"
+      defer
+    ></script>
+
+</body>
+
+
+	<!-- <script>
+		let map;
+
+		function initMap() {
+  			map = new google.maps.Map(document.getElementById("map"), {
+    		center: { lat: -34.397, lng: 150.644 },
+    	zoom: 8,
+  		});
+}
+
+window.initMap = initMap;
+
+	</script> -->
+
+	<script>
+
+
+		// Initialize and add the map
+		function initMap() {
+
+
+    // The location of Uluru
+	const frankfurt = {lat: 50.1109, lng: -8.6821}
+	const shanghai = {lat: 31.2304, lng: 121.4737}
+    const uluru = { lat: -25.344, lng: 131.031 };
+	const los_angeles = {lat: 34.0522, lng: -118.2437}
+
+    // The map, centered at Uluru
+    const map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 4,
+      center: los_angeles,
+	  keyboardShortcuts: false,
+    });
+
+   setTimeout(() => {
+
+	new google.maps.Marker({
+      position: shanghai,
+      map: map,
+    });
+
+	new google.maps.Marker({
+      position: frankfurt,
+      map: map,
+    });
+
+
+	new google.maps.Marker({
+      position: los_angeles,
+      map: map,
+    });
+
+	const flightPlanCoordinates = [
+		frankfurt,
+		shanghai, 
+		los_angeles,
+  	];
+	
+  	const flightPath = new google.maps.Polyline({
+    	path: flightPlanCoordinates,
+    	geodesic: true,
+    	strokeColor: "#000000",
+    	strokeOpacity: 1.0,
+    	strokeWeight: 2,
+  	});
+
+  flightPath.setMap(map);
+
+   }, 5000)	
+
+
+  }
+  
+  window.initMap = initMap;
+
+	</script>
+
+
+
+
+
+</html>
